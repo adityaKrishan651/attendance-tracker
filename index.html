@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AttendanceHero - Comic Tracker</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="light-mode">
+    <!-- Action overlay for comic words (POW!, ZAP!) -->
+    <div id="action-overlay" class="hidden">
+        <div id="action-word">ZAP!</div>
+    </div>
+
+    <!-- Onboarding Wizard -->
+    <div id="wizard-modal" class="modal hidden">
+        <div class="modal-content comic-panel">
+            <h1 class="wizard-title">ATTENDANCE HERO!</h1>
+            <p class="wizard-desc">Welcome to your origin story. Let's set up your powers!</p>
+            
+            <form id="wizard-form">
+                <!-- Step 1 -->
+                <div class="wizard-step" id="step-1">
+                    <h2>Step 1: Identity</h2>
+                    <label for="hero-name">What's your hero name? (Optional)</label>
+                    <input type="text" id="hero-name" placeholder="e.g. Captain Cramer" class="comic-input">
+                    <button type="button" class="comic-btn primary" onclick="nextStep(2)">Next: The Mission 💥</button>
+                </div>
+
+                <!-- Step 2 & 3 -->
+                <div class="wizard-step hidden" id="step-2">
+                    <h2>Step 2: The Rules</h2>
+                    <label for="target-threshold">Target Attendance %</label>
+                    <input type="number" id="target-threshold" min="0" max="100" value="75" required class="comic-input">
+                    
+                    <label for="total-held">Total Classes Held So Far (overall roughly)</label>
+                    <input type="number" id="total-held" min="0" value="0" required class="comic-input">
+                    <div class="wizard-actions">
+                        <button type="button" class="comic-btn secondary" onclick="nextStep(1)">Back</button>
+                        <button type="button" class="comic-btn primary" onclick="nextStep(3)">Next: The Subjects 💥</button>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="wizard-step hidden" id="step-3">
+                    <h2>Step 3: Initial Subjects</h2>
+                    <p>Add your classes here to start tracking.</p>
+                    <div id="wizard-subjects">
+                        <!-- Dynamic subject inputs will be appended here -->
+                    </div>
+                    <button type="button" class="comic-btn outline add-subject-btn" onclick="addWizardSubject()">+ Add Subject</button>
+                    <div class="wizard-actions">
+                        <button type="button" class="comic-btn secondary" onclick="nextStep(2)">Back</button>
+                        <button type="submit" class="comic-btn primary" id="finish-wizard-btn">Begin Journey! 🚀</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <main id="app-container" class="hidden">
+        <header class="app-header comic-panel">
+            <div class="header-left">
+                <h1 id="greeting-title">HERO LAB</h1>
+                <p id="hero-subtitle">Target: <span id="global-target-display">75</span>%</p>
+            </div>
+            <div class="header-right" style="display: flex; gap: 12px; align-items: center;">
+                <button class="comic-btn small outline" onclick="exportData()" title="Export CSV (F-11)">⬇️ Export</button>
+                <button class="comic-btn small danger" onclick="signOut()" id="logout-btn" title="Logout" style="display:none;">Logout</button>
+                <button class="icon-btn" onclick="toggleTheme()" title="Toggle Theme (F-12)">🌓</button>
+            </div>
+        </header>
+
+        <!-- Predictive Insights / Alert Banner -->
+        <div id="global-alert" class="comic-banner danger hidden">
+            <strong>DANGER!</strong> Your overall attendance is dropping too quickly!
+        </div>
+
+        <!-- Overall Dashboard -->
+        <div class="dashboard-overview comic-panel">
+            <div class="overview-grid">
+                <div class="donut-container">
+                    <div class="donut-chart" id="overall-donut">
+                        <span id="overall-pct-text">0%</span>
+                    </div>
+                </div>
+                <div class="overview-stats">
+                    <h2>OVERALL STATS</h2>
+                    <p>Attended: <span id="overall-attended-text">0</span></p>
+                    <p>Total: <span id="overall-total-text">0</span></p>
+                    <div class="streak-box">
+                        <h3>🔥 STREAK: <span id="streak-count">0</span> DAYS</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="subjects-header">
+                <h2>Your Subjects</h2>
+                <button class="comic-btn small primary" onclick="openAddSubjectModal()">+ Add Subject</button>
+            </div>
+            
+            <div id="subjects-container" class="subjects-grid">
+                <!-- Subject cards will be generated here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Generic Modal for Adding Subject Post-Onboarding -->
+    <div id="add-subject-modal" class="modal hidden">
+        <div class="modal-content comic-panel">
+            <h2>Add New Subject</h2>
+            <form id="add-subject-form">
+                <label>Subject Name</label>
+                <input type="text" id="new-subj-name" required class="comic-input">
+                
+                <div class="split-inputs">
+                    <div>
+                        <label>Attended So Far</label>
+                        <input type="number" id="new-subj-attended" min="0" value="0" required class="comic-input">
+                    </div>
+                    <div>
+                        <label>Total Held So Far</label>
+                        <input type="number" id="new-subj-total" min="0" value="0" required class="comic-input">
+                    </div>
+                </div>
+                
+                <div class="wizard-actions">
+                    <button type="button" class="comic-btn secondary" onclick="closeAddSubjectModal()">Cancel</button>
+                    <button type="submit" class="comic-btn primary">Add Subject 💥</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for marking a custom date -->
+    <div id="mark-custom-date-modal" class="modal hidden">
+        <div class="modal-content comic-panel mini">
+            <h2>Mark Past Date</h2>
+            <form id="custom-date-form">
+                <input type="hidden" id="custom-date-subject-id">
+                <label>Date</label>
+                <input type="date" id="custom-date-input" required class="comic-input">
+                
+                <label>Status</label>
+                <select id="custom-date-status" class="comic-input" required>
+                    <option value="present">Present</option>
+                    <option value="absent">Absent</option>
+                </select>
+
+                <div class="wizard-actions">
+                    <button type="button" class="comic-btn secondary" onclick="closeCustomDateModal()">Cancel</button>
+                    <button type="submit" class="comic-btn primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Calendar Modal -->
+    <div id="calendar-modal" class="modal hidden">
+        <div class="modal-content comic-panel">
+            <h2 id="calendar-subject-name">Subject Calendar</h2>
+            <div class="calendar-nav">
+                <button class="icon-btn" onclick="prevMonth()">⬅️</button>
+                <h3 id="calendar-month-year">Month Year</h3>
+                <button class="icon-btn" onclick="nextMonth()">➡️</button>
+            </div>
+            <div class="calendar-grid">
+                <div class="cal-header">Sun</div>
+                <div class="cal-header">Mon</div>
+                <div class="cal-header">Tue</div>
+                <div class="cal-header">Wed</div>
+                <div class="cal-header">Thu</div>
+                <div class="cal-header">Fri</div>
+                <div class="cal-header">Sat</div>
+                <!-- Days will be generated here -->
+                <div id="calendar-days" class="cal-days-container"></div>
+            </div>
+            <div class="wizard-actions">
+                <button class="comic-btn secondary" onclick="closeCalendarModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content comic-panel mini">
+            <h1 class="wizard-title" style="font-size: 2.5rem;">HERO LOGIN</h1>
+            <p class="wizard-desc">Authenticate to sync your heroic deeds!</p>
+            <div class="wizard-actions" style="justify-content: center;">
+                <button type="button" class="comic-btn primary" onclick="signInWithGoogle()">Sign in with Google 💥</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <script src="app.js"></script>
+</body>
+</html>

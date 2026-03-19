@@ -1,0 +1,569 @@
+:root {
+    --primary-dark: #1A1A2E;
+    --action-yellow: #FFD700;
+    --danger-red: #E63946;
+    --safe-green: #2DC653;
+    --panel-white: #F9F9F9;
+    --ink-black: #000000;
+    
+    --bg-color: var(--panel-white);
+    --text-color: var(--ink-black);
+    --dot-color: rgba(0,0,0,0.05);
+}
+
+.dark-mode {
+    --bg-color: var(--primary-dark);
+    --text-color: var(--panel-white);
+    --dot-color: rgba(255,255,255,0.05);
+    --panel-white: #2A2A3E; /* Dark panels */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Comic Neue', cursive, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    background-image: radial-gradient(var(--dot-color) 2px, transparent 2px);
+    background-size: 16px 16px;
+    min-height: 100vh;
+    padding: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+h1, h2, h3, h4, h5, h6, .bangers {
+    font-family: 'Bangers', cursive;
+    letter-spacing: 1px;
+}
+
+/* Comic UI Elements */
+.comic-panel {
+    background-color: var(--panel-white);
+    border: 4px solid var(--ink-black);
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 6px 6px 0 var(--ink-black);
+    color: var(--ink-black);
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.dark-mode .comic-panel {
+    color: #FFF;
+    border-color: #000;
+}
+
+.comic-input {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font-family: 'Comic Neue', cursive;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: 3px solid var(--ink-black);
+    border-radius: 4px;
+    margin-bottom: 16px;
+    background: #FFF;
+    color: var(--ink-black);
+    outline: none;
+    transition: transform 0.1s;
+}
+
+.comic-input:focus {
+    transform: scale(1.02);
+    border-color: var(--action-yellow);
+}
+
+.comic-btn {
+    font-family: 'Bangers', cursive;
+    font-size: 1.5rem;
+    padding: 10px 24px;
+    border: 3px solid var(--ink-black);
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 4px 4px 0 var(--ink-black);
+    transition: transform 0.1s, box-shadow 0.1s;
+    background: var(--panel-white);
+    color: var(--ink-black);
+}
+
+.comic-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--ink-black);
+}
+
+.comic-btn.primary {
+    background-color: var(--action-yellow);
+}
+
+.comic-btn.secondary {
+    background-color: #DDD;
+}
+
+.comic-btn.danger {
+    background-color: var(--danger-red);
+    color: #FFF;
+}
+
+.comic-btn.success {
+    background-color: var(--safe-green);
+    color: #FFF;
+}
+
+.comic-btn.outline {
+    background-color: transparent;
+    border: 3px dashed var(--ink-black);
+    box-shadow: none;
+}
+.comic-btn.outline:active {
+    background-color: var(--action-yellow);
+    border-style: solid;
+}
+
+.comic-btn.small {
+    font-size: 1.2rem;
+    padding: 6px 16px;
+    box-shadow: 2px 2px 0 var(--ink-black);
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.icon-btn:hover {
+    transform: scale(1.2) rotate(10deg);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Modals */
+.modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    padding: 20px;
+}
+.modal-content {
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+.modal-content.mini {
+    max-width: 350px;
+}
+
+/* Wizard */
+.wizard-title {
+    font-size: 3rem;
+    text-align: center;
+    color: var(--action-yellow);
+    text-shadow: 2px 2px 0 var(--ink-black);
+    -webkit-text-stroke: 1px var(--ink-black);
+    margin-bottom: 10px;
+}
+.wizard-desc {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 24px;
+}
+.wizard-step h2 {
+    font-size: 2rem;
+    margin-bottom: 16px;
+    border-bottom: 3px solid var(--ink-black);
+    display: inline-block;
+}
+.wizard-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+}
+.split-inputs {
+    display: flex;
+    gap: 16px;
+}
+.split-inputs > div {
+    flex: 1;
+}
+
+/* App Header */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+}
+#greeting-title {
+    font-size: 2.5rem;
+    color: var(--action-yellow);
+    text-shadow: 2px 2px 0 var(--ink-black);
+}
+#hero-subtitle {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* Dashboard */
+.dashboard-overview {
+    display: flex;
+    margin-bottom: 24px;
+}
+.overview-grid {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 32px;
+}
+.donut-container {
+    width: 150px;
+    height: 150px;
+    position: relative;
+    flex-shrink: 0;
+}
+.donut-chart {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(var(--safe-green) 0%, var(--safe-green) var(--fill, 0%), transparent var(--fill, 0%), transparent 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 4px solid var(--ink-black);
+    box-shadow: 4px 4px 0 var(--ink-black);
+}
+.donut-chart::before {
+    content: "";
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: var(--panel-white);
+    border-radius: 50%;
+    border: 4px solid var(--ink-black);
+}
+#overall-pct-text {
+    position: relative;
+    font-family: 'Bangers', cursive;
+    font-size: 2.5rem;
+    z-index: 10;
+}
+
+.overview-stats {
+    flex-grow: 1;
+}
+.overview-stats h2 {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+    text-shadow: 2px 2px 0 var(--panel-white);
+}
+.overview-stats p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+.streak-box {
+    margin-top: 12px;
+    padding: 8px 16px;
+    border: 3px solid var(--ink-black);
+    display: inline-block;
+    background: var(--action-yellow);
+    border-radius: 4px;
+    transform: rotate(-2deg);
+    box-shadow: 3px 3px 0 var(--ink-black);
+}
+.streak-box h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--ink-black);
+}
+
+.dashboard-grid {
+    margin-top: 24px;
+}
+.subjects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.subjects-header h2 {
+    font-size: 2rem;
+    text-shadow: 2px 2px 0 var(--panel-white);
+}
+
+.subjects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+/* Subject Card */
+.subject-card {
+    display: flex;
+    flex-direction: column;
+}
+.subject-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 3px solid var(--ink-black);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+}
+.subject-name {
+    font-size: 1.8rem;
+    line-height: 1.1;
+    word-break: break-word;
+}
+.subject-stats {
+    text-align: right;
+}
+.subject-percent {
+    font-size: 2.5rem;
+    font-family: 'Bangers', cursive;
+}
+.subject-counts {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #555;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    font-family: 'Bangers', cursive;
+    font-size: 1.1rem;
+    border: 2px solid var(--ink-black);
+    border-radius: 4px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+.status-badge.safe { background-color: var(--safe-green); color: #FFF; }
+.status-badge.warning { background-color: var(--action-yellow); color: var(--ink-black); }
+.status-badge.danger { background-color: var(--danger-red); color: #FFF; }
+
+.action-panel {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+}
+.action-panel button {
+    flex: 1;
+}
+
+.comic-banner {
+    padding: 16px;
+    border: 4px solid var(--ink-black);
+    border-radius: 8px;
+    font-family: 'Comic Neue', cursive;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 24px;
+    box-shadow: 4px 4px 0 var(--ink-black);
+}
+.comic-banner.danger {
+    background-color: var(--danger-red);
+    color: #FFF;
+}
+
+/* Action Overlay Animation */
+#action-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+#action-word {
+    font-family: 'Bangers', cursive;
+    font-size: 10rem;
+    color: var(--action-yellow);
+    text-shadow: 4px 4px 0 var(--danger-red), 8px 8px 0 var(--ink-black);
+    -webkit-text-stroke: 3px var(--ink-black);
+    transform: scale(0) rotate(-15deg);
+    opacity: 0;
+}
+
+@keyframes powAnimation {
+    0% { transform: scale(0) rotate(-15deg); opacity: 0; }
+    20% { transform: scale(1.2) rotate(10deg); opacity: 1; }
+    40% { transform: scale(0.9) rotate(-5deg); opacity: 1; }
+    80% { transform: scale(1) rotate(0deg); opacity: 1; }
+    100% { transform: scale(1.5) rotate(5deg); opacity: 0; }
+}
+
+.animate-pow {
+    animation: powAnimation 0.6s ease-out forwards;
+}
+
+/* Card utilities */
+.card-tools {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 12px;
+}
+.card-tools button {
+    font-size: 0.9rem;
+    padding: 6px;
+    background: transparent;
+    border: 2px solid var(--ink-black);
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.card-tools button:hover {
+    background: #EEE;
+}
+
+/* Predictive Insights Bubble */
+.insight-bubble {
+    position: relative;
+    background: #FFF;
+    border: 3px solid var(--ink-black);
+    border-radius: 12px;
+    padding: 10px;
+    margin-top: 12px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    line-height: 1.3;
+    text-align: center;
+    box-shadow: 3px 3px 0 var(--ink-black);
+    color: var(--ink-black);
+}
+.insight-bubble::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    border-width: 0 10px 10px 10px;
+    border-style: solid;
+    border-color: transparent transparent var(--ink-black) transparent;
+}
+.insight-bubble::after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 22px;
+    border-width: 0 8px 8px 8px;
+    border-style: solid;
+    border-color: transparent transparent #FFF transparent;
+}
+
+/* Calendar View */
+.calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 24px;
+}
+.cal-header {
+    text-align: center;
+    font-family: 'Bangers', cursive;
+    font-size: 1.2rem;
+    border-bottom: 2px solid var(--ink-black);
+    padding-bottom: 4px;
+}
+.cal-days-container {
+    display: contents; /* so children act as grid items of .calendar-grid */
+}
+.cal-day {
+    aspect-ratio: 1;
+    border: 2px solid var(--ink-black);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    background: #FFF;
+    color: var(--ink-black);
+    transition: transform 0.1s;
+}
+.cal-day:hover {
+    transform: scale(1.1);
+    z-index: 10;
+}
+.cal-day.empty {
+    background: #EEE;
+    color: #999;
+    border-color: #CCC;
+    cursor: default;
+}
+.cal-day.empty:hover {
+    transform: none;
+}
+.cal-day.today {
+    border: 4px solid var(--action-yellow);
+}
+.cal-day.present {
+    background: var(--safe-green);
+    color: #FFF;
+}
+.cal-day.present::after {
+    content: '✅';
+    font-size: 0.8rem;
+}
+.cal-day.absent {
+    background: var(--danger-red);
+    color: #FFF;
+}
+.cal-day.absent::after {
+    content: '❌';
+    font-size: 0.8rem;
+}
+
+/* Dark Mode Text Fixes */
+.dark-mode .subject-counts {
+    color: #CCC;
+}
+.marked-today-text {
+    text-align: center;
+    font-weight: bold;
+    color: #555;
+    padding: 10px;
+    border: 2px dashed var(--ink-black);
+}
+.dark-mode .marked-today-text {
+    color: #CCC;
+    border-color: #000;
+}
+.dark-mode .cal-day {
+    background: #444;
+    color: #FFF;
+    border-color: #111;
+}
+.dark-mode .cal-day.empty {
+    background: #333;
+    color: #777;
+    border-color: #222;
+}
+.dark-mode .cal-day.today {
+    border-color: var(--action-yellow);
+}
