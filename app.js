@@ -621,3 +621,5 @@ window.closeAddSubjectModal = closeAddSubjectModal;
 window.openAddSubjectModal = openAddSubjectModal;
 window.prevMonth = prevMonth;
 window.nextMonth = nextMonth;
+window.nextStep = nextStep;
+window.addWizardSubject = addWizardSubject;
