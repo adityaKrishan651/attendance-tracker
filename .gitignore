@@ -3,3 +3,7 @@ env.js
 prd.txt
 AttendanceTracker_PRD.docx
 .env
+
+# Node & Build artifacts
+node_modules/
+dist/
