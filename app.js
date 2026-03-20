@@ -1,7 +1,21 @@
 const STORAGE_KEY = 'attendanceHero';
 
-let auth = null;
-let db = null;
+const firebaseConfig = {
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+};
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+
+const auth = firebase.auth();
+const db = firebase.firestore();
 
 let currentUser = null;
 
@@ -22,46 +36,7 @@ let currentCalendarDate = new Date();
 // --- Initialization ---
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Fetch and parse .env file
-    fetch('.env')
-        .then(response => {
-            if (!response.ok) throw new Error("Could not load .env file");
-            return response.text();
-        })
-        .then(text => {
-            const env = {};
-            text.split('\\n').forEach(line => {
-                const match = line.match(/^([^=]+)=(.*)$/);
-                if (match) {
-                    let val = match[2].trim();
-                    if (val.startsWith('"') && val.endsWith('"')) val = val.slice(1, -1);
-                    if (val.startsWith("'") && val.endsWith("'")) val = val.slice(1, -1);
-                    env[match[1].trim()] = val;
-                }
-            });
-
-            const firebaseConfig = {
-                apiKey: env.FIREBASE_API_KEY,
-                authDomain: env.FIREBASE_AUTH_DOMAIN,
-                projectId: env.FIREBASE_PROJECT_ID,
-                storageBucket: env.FIREBASE_STORAGE_BUCKET,
-                messagingSenderId: env.FIREBASE_MESSAGING_SENDER_ID,
-                appId: env.FIREBASE_APP_ID,
-                measurementId: env.FIREBASE_MEASUREMENT_ID
-            };
-
-            if (!firebase.apps.length) {
-                firebase.initializeApp(firebaseConfig);
-            }
-            auth = firebase.auth();
-            db = firebase.firestore();
-
-            initApp();
-        })
-        .catch(err => {
-            console.error("Firebase Init Error:", err);
-            alert("Could not initialize Firebase! Make sure you created a .env file and are running a local server.");
-        });
+    initApp();
 });
 
 function initApp() {
@@ -630,3 +605,19 @@ function fetchUserData(uid) {
         }
     });
 }
+
+// --- Global Context Bindings for HTML ---
+window.signInWithGoogle = signInWithGoogle;
+window.signOut = signOut;
+window.exportData = exportData;
+window.toggleTheme = toggleTheme;
+window.markAttendance = markAttendance;
+window.deleteSubject = deleteSubject;
+window.openCalendarModal = openCalendarModal;
+window.openCustomDateModal = openCustomDateModal;
+window.closeCalendarModal = closeCalendarModal;
+window.closeCustomDateModal = closeCustomDateModal;
+window.closeAddSubjectModal = closeAddSubjectModal;
+window.openAddSubjectModal = openAddSubjectModal;
+window.prevMonth = prevMonth;
+window.nextMonth = nextMonth;

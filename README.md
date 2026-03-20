@@ -18,12 +18,12 @@ Because this relies on Firebase for authentication and database services, you mu
 2. In the root directory, create a file named `env.js`.
 3. Copy the contents of `env.example.js` into your new `env.js` file.
 4. Replace the string placeholders with the keys from your Firebase Project Console. (Ensure Google Auth and Firestore are enabled on the project!)
-5. Since Firebase Auth does not work over `file://` protocols, run a local HTTP server:
+5. Because this app is built with Vite, install the dependencies and start the development server:
    ```bash
-   # Using Python 3
-   python3 -m http.server 8000
+   npm install
+   npm run dev
    ```
-6. Visit `http://localhost:8000` to preview the app!
+6. Visit the local URL provided by Vite (usually `http://localhost:5173`) to preview the app!
 
 ## Design System
 - **Fonts**: Bangers (Headings), Comic Neue (Body) - loaded directly via Google Fonts.
